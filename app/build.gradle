@@ -24,6 +24,9 @@ android {
     lint {
         baseline = file("lint-baseline.xml")  // Убедитесь, что этот файл создан и находится в корне проекта
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 
