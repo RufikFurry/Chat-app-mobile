@@ -14,12 +14,20 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+     signingConfigs {
+        release {
+            keyAlias 'your-key-alias'
+            keyPassword 'Qwas2227A'
+            storeFile file('keystore.jks')
+            storePassword 'Qwas2227A'
+        }
+    }
 
     buildTypes {
-        release {
+    	 release {
         // Ensure that minifyEnabled is set if using ProGuard or R8
-         minifyEnabled false
-         signingConfig signingConfigs.release
+        	 minifyEnabled false
+        	 signingConfig signingConfigs.release
     	}
     }
     lint {
