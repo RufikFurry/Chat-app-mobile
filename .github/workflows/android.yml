@@ -3,10 +3,10 @@ name: Android CI
 on:
   push:
     branches:
-      - main  # Run the workflow on push to the main branch
+      - main  # Запускаем workflow на push в main
   pull_request:
     branches:
-      - main  # Run the workflow on pull requests to the main branch
+      - main  # Запускаем workflow на pull request в main
 
 jobs:
   build:
@@ -31,11 +31,21 @@ jobs:
     - name: Assemble Debug APK
       run: ./gradlew assembleDebug
 
-    - name: Upload APK
+    - name: Upload Debug APK
       uses: actions/upload-artifact@v3
       with:
         name: app-debug.apk
         path: app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Assemble Release APK
+      run: ./gradlew assembleRelease
+
+    - name: Upload Release APK
+      if: success()  # Этот шаг выполнится только если предыдущие шаги прошли успешно
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release.apk
+        path: app/build/outputs/apk/release/app-release.apk
 
     - name: Upload Lint Report
       uses: actions/upload-artifact@v3
