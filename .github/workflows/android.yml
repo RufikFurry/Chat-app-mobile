@@ -28,6 +28,13 @@ jobs:
     - name: Assemble Release APK
       run: ./gradlew assembleRelease
 
+    - name: Create Git Tag
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git tag -a v1.0.0 -m "Release version 1.0.0"  # Укажите версию релиза
+        git push origin v1.0.0  # Отправляем тег на GitHub
+
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
@@ -38,5 +45,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: app/build/outputs/apk/release/app-release.apk
+        tag_name: v1.0.0  # Используем созданный тег
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
