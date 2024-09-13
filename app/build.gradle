@@ -1,0 +1,38 @@
+// build.gradle в папке app
+apply plugin: 'com.android.application'
+
+android {
+    buildToolsVersion "31.0.0"
+    namespace 'com.example.myapp'
+    compileSdkVersion 33 // Используйте последнюю стабильную версию SDK
+    defaultConfig {
+        applicationId "com.example.myapp"
+        minSdkVersion 21 // Минимальная поддерживаемая версия
+        targetSdkVersion 33 // Целевая версия SDK
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.material:material:1.9.0'
+
+    // Зависимость для WebSocket, если вы используете Socket.IO
+    implementation 'io.socket:socket.io-client:1.0.0' // добавьте эту строку для работы с Socket.IO
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
