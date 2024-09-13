@@ -17,9 +17,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+        // Ensure that minifyEnabled is set if using ProGuard or R8
+         minifyEnabled false
+         signingConfig signingConfigs.release
+    	}
     }
     lint {
         baseline = file("lint-baseline.xml")  // Убедитесь, что этот файл создан и находится в корне проекта
