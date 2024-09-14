@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-
+import java.io.IOException;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
