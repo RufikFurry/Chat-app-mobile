@@ -17,70 +17,70 @@ import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Socket mSocket;
-    private EditText messageEditText;
+    private Socket socket;
+    private EditText messageInput;
     private Button sendButton;
-    private RecyclerView chatRecyclerView;
-    private TextView serverStatusTextView;
+    private ListView messageList;
+    private ArrayAdapter<String> adapter;
+    private RelativeLayout errorLayout;
+    private Button reconnectButton;
+    private Button exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        messageEditText = findViewById(R.id.messageEditText);
-        sendButton = findViewById(R.id.sendButton);
-        chatRecyclerView = findViewById(R.id.chatRecyclerView);
-        serverStatusTextView = findViewById(R.id.serverStatusTextView);
+        messageInput = findViewById(R.id.message_input);
+        sendButton = findViewById(R.id.send_button);
+        messageList = findViewById(R.id.message_list);
+        errorLayout = findViewById(R.id.error_layout);
+        reconnectButton = findViewById(R.id.reconnect_button);
+        exitButton = findViewById(R.id.exit_button);
 
-        // Setup RecyclerView
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // Set up your RecyclerView Adapter here
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        messageList.setAdapter(adapter);
 
         try {
-            mSocket = IO.socket("http://localhost:3000");
-            mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    runOnUiThread(() -> {
-                        serverStatusTextView.setVisibility(View.GONE);
-                        sendButton.setEnabled(true);
-                    });
-                }
-            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    runOnUiThread(() -> {
-                        serverStatusTextView.setVisibility(View.VISIBLE);
-                        sendButton.setEnabled(false);
-                    });
-                }
-            }).on("message", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    // Handle incoming messages
-                }
-            });
-            mSocket.connect();
-        } catch (Exception e) {
+            socket = IO.socket("http://localhost:3000");
+            socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
+                errorLayout.setVisibility(View.GONE);
+                sendButton.setEnabled(true);
+            })).on(Socket.EVENT_DISCONNECT, args -> runOnUiThread(() -> {
+                errorLayout.setVisibility(View.VISIBLE);
+                sendButton.setEnabled(false);
+            })).on("message", args -> runOnUiThread(() -> {
+                String message = (String) args[0];
+                adapter.add(message);
+            }));
+
+            socket.connect();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
         sendButton.setOnClickListener(v -> {
-            String message = messageEditText.getText().toString();
+            String message = messageInput.getText().toString();
             if (!message.isEmpty()) {
-                mSocket.emit("message", message);
-                messageEditText.setText("");
+                socket.emit("message", message);
+                messageInput.setText("");
             }
+        });
+
+        reconnectButton.setOnClickListener(v -> {
+            socket.connect();
+        });
+
+        exitButton.setOnClickListener(v -> {
+            finish();
         });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSocket != null) {
-            mSocket.disconnect();
-            mSocket.off();
+        if (socket != null) {
+            socket.disconnect();
         }
     }
 }

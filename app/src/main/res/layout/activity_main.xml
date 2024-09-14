@@ -3,49 +3,65 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <RecyclerView
-        android:id="@+id/chatRecyclerView"
+    <ListView
+        android:id="@+id/message_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/sendLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_above="@+id/input_layout"
+        android:layout_weight="1"/>
 
     <LinearLayout
-        android:id="@+id/sendLayout"
+        android:id="@+id/input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
         <EditText
-            android:id="@+id/messageEditText"
+            android:id="@+id/message_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Type a message"/>
 
         <Button
-            android:id="@+id/sendButton"
+            android:id="@+id/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/serverStatusTextView"
+    <RelativeLayout
+        android:id="@+id/error_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:background="#FF0000"
+        android:background="@android:color/black"
         android:visibility="gone"
-        android:text="Server might be down or there was an error"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:padding="8dp"
-        android:gravity="center"/>
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сервер отключен или произошел сбой"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/reconnect_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Перезапустить соединение"
+            android:layout_below="@id/error_message"
+            android:layout_alignParentStart="true"/>
+
+        <Button
+            android:id="@+id/exit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Выйти"
+            android:layout_below="@id/error_message"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
 </RelativeLayout>
