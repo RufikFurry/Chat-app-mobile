@@ -1,18 +1,23 @@
 package com.example.myapp;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+
 import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
