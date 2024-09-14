@@ -1,51 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Поле для ввода URL -->
-    <EditText
-        android:id="@+id/url_input"
+    <ListView
+        android:id="@+id/message_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите URL для подключения к чату"
-        android:inputType="textUri" />
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/message_input"/>
 
-    <!-- Кнопка для подключения -->
-    <Button
-        android:id="@+id/connect_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Подключиться" />
-
-    <!-- Текстовое поле для отображения состояния -->
-    <TextView
-        android:id="@+id/status_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Статус: Ожидание подключения" />
-
-    <!-- Поле для ввода сообщений -->
     <EditText
         android:id="@+id/message_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите сообщение"
-        android:enabled="false" />
+        android:layout_alignParentBottom="true"
+        android:hint="Enter your message"/>
 
-    <!-- Кнопка для отправки сообщения -->
     <Button
         android:id="@+id/send_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Отправить"
-        android:enabled="false" />
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/message_input"
+        android:text="Send"/>
 
-    <!-- Список сообщений -->
-    <ListView
-        android:id="@+id/message_list"
+    <RelativeLayout
+        android:id="@+id/status_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retry"
+            android:layout_below="@+id/status_text"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"/>
+
+        <Button
+            android:id="@+id/exit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exit"
+            android:layout_below="@+id/status_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"/>
+    </RelativeLayout>
+</RelativeLayout>
