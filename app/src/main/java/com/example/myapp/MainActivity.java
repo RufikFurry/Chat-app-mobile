@@ -43,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         messageList.setAdapter(adapter);
+        
+       try {
+            // Ваш код, который может вызвать исключение
+            throw new IOException("Пример ошибки");
+        } catch (Exception e) {
+            LogDebug.logError(this, e);
+        }
 
         initializeSocket();
     }
