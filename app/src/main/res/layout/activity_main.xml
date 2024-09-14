@@ -1,63 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- ListView для отображения сообщений -->
+    <!-- Поле для ввода URL -->
+    <EditText
+        android:id="@+id/url_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите URL для подключения к чату"
+        android:inputType="textUri" />
+
+    <!-- Кнопка для подключения -->
+    <Button
+        android:id="@+id/connect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Подключиться" />
+
+    <!-- Текстовое поле для отображения состояния -->
+    <TextView
+        android:id="@+id/status_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статус: Ожидание подключения" />
+
+    <!-- Поле для ввода сообщений -->
+    <EditText
+        android:id="@+id/message_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите сообщение"
+        android:enabled="false" />
+
+    <!-- Кнопка для отправки сообщения -->
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Отправить"
+        android:enabled="false" />
+
+    <!-- Список сообщений -->
     <ListView
         android:id="@+id/message_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/input_layout"
-        android:layout_weight="1"/>
-
-    <!-- Панель для ввода сообщений и кнопка отправки -->
-    <LinearLayout
-        android:id="@+id/input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
-
-        <EditText
-            android:id="@+id/message_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Type a message"/>
-
-        <Button
-            android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"/>
-    </LinearLayout>
-
-    <!-- Панель для отображения ошибки -->
-    <RelativeLayout
-        android:id="@+id/error_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/error_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-
-        <Button
-            android:id="@+id/reconnect_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Перезапустить соединение"
-            android:layout_below="@id/error_message"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
-
-</RelativeLayout>
-
+        android:layout_height="match_parent" />
+</LinearLayout>

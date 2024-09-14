@@ -1,14 +1,13 @@
 package com.example.myapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,94 +20,106 @@ import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
     private Socket socket;
+    private EditText urlInput;
     private EditText messageInput;
+    private Button connectButton;
     private Button sendButton;
+    private TextView statusMessage;
     private ListView messageList;
     private ArrayAdapter<String> adapter;
-    private RelativeLayout errorLayout;
-    private TextView errorMessage;
-    private Button reconnectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        urlInput = findViewById(R.id.url_input);
         messageInput = findViewById(R.id.message_input);
+        connectButton = findViewById(R.id.connect_button);
         sendButton = findViewById(R.id.send_button);
+        statusMessage = findViewById(R.id.status_message);
         messageList = findViewById(R.id.message_list);
-        errorLayout = findViewById(R.id.error_layout);
-        errorMessage = findViewById(R.id.error_message);
-        reconnectButton = findViewById(R.id.reconnect_button);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         messageList.setAdapter(adapter);
 
-        initializeSocket();
-
-        // Обработка нажатия кнопки "Переподключить"
-        reconnectButton.setOnClickListener(v -> {
-            initializeSocket();  // Переподключение
+        // Обработчик для кнопки "Подключиться"
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = urlInput.getText().toString();
+                if (!url.isEmpty()) {
+                    initializeSocket(url);
+                } else {
+                    Toast.makeText(MainActivity.this, "Введите URL", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
-        // Обработка нажатия кнопки "Отправить"
-        sendButton.setOnClickListener(v -> {
-            String message = messageInput.getText().toString();
-            if (!message.isEmpty()) {
-                socket.emit("message", message);
-                messageInput.setText("");
+        // Обработчик для кнопки "Отправить"
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = messageInput.getText().toString();
+                if (!message.isEmpty()) {
+                    socket.emit("message", message);
+                    messageInput.setText("");
+                }
             }
         });
     }
 
-    private void initializeSocket() {
+    private void initializeSocket(String url) {
         try {
-            socket = IO.socket("http://your-server-ip-address:3000");  // Замените на реальный IP-адрес сервера
+            socket = IO.socket(url);
 
-            // Подключение успешно
-            socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
-                errorLayout.setVisibility(View.GONE);
-                sendButton.setEnabled(true);
-                Log.i(TAG, "Подключено к серверу");
-            }));
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(() -> {
+                        statusMessage.setText("Подключено к серверу");
+                        sendButton.setEnabled(true);
+                        messageInput.setEnabled(true);
+                    });
+                }
+            });
 
-            // Отключение от сервера
-            socket.on(Socket.EVENT_DISCONNECT, args -> runOnUiThread(() -> {
-                errorLayout.setVisibility(View.VISIBLE);
-                sendButton.setEnabled(false);
-                errorMessage.setText("Сервер отключен.");
-                Log.i(TAG, "Отключено от сервера");
-            }));
+            socket.on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(() -> {
+                        statusMessage.setText("Отключено от сервера");
+                        sendButton.setEnabled(false);
+                        messageInput.setEnabled(false);
+                    });
+                }
+            });
 
-            // Ошибка подключения
-            socket.on(Socket.EVENT_CONNECT_ERROR, args -> runOnUiThread(() -> {
-                errorLayout.setVisibility(View.VISIBLE);
-                sendButton.setEnabled(false);
-                errorMessage.setText("Ошибка подключения: " + args[0]);
-                Log.e(TAG, "Ошибка подключения: " + args[0]);
-            }));
+            socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(() -> {
+                        statusMessage.setText("Ошибка подключения: " + args[0]);
+                    });
+                }
+            });
 
-            // Таймаут подключения
-            socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> runOnUiThread(() -> {
-                errorLayout.setVisibility(View.VISIBLE);
-                sendButton.setEnabled(false);
-                errorMessage.setText("Время подключения истекло.");
-                Log.e(TAG, "Время подключения истекло");
-            }));
-
-            // Получение сообщений с сервера
-            socket.on("message", args -> runOnUiThread(() -> {
-                String message = (String) args[0];
-                adapter.add(message);
-            }));
+            socket.on("message", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(() -> {
+                        String message = (String) args[0];
+                        adapter.add(message);
+                    });
+                }
+            });
 
             socket.connect();
 
         } catch (URISyntaxException e) {
-            Log.e(TAG, "Ошибка URI: " + e.getMessage());
             e.printStackTrace();
+            statusMessage.setText("Неверный URL");
         }
     }
 
