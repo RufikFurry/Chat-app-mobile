@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSocket() {
         try {
-            socket = IO.socket("https://your-website.com");
+            socket = IO.socket("http://localhost:3000");
 
             socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
                 statusPanel.setVisibility(View.GONE);
