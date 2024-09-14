@@ -14,16 +14,23 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
+     signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias 'your-key-alias'
+            keyPassword 'Qwas2227A'
+            storeFile file('release-key.jks')
+            storePassword 'Qwas2227A'
         }
     }
-    lint {
-        baseline = file("lint-baseline.xml")  // Убедитесь, что этот файл создан и находится в корне проекта
+
+    buildTypes {
+    	 release {
+        // Ensure that minifyEnabled is set if using ProGuard or R8
+        	 minifyEnabled false
+        	 signingConfig signingConfigs.release
+    	}
     }
+    
     lintOptions {
         abortOnError false
     }
