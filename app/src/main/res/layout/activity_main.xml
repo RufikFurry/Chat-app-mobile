@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <!-- ListView для отображения сообщений -->
     <ListView
         android:id="@+id/message_list"
         android:layout_width="match_parent"
@@ -10,6 +11,7 @@
         android:layout_above="@+id/input_layout"
         android:layout_weight="1"/>
 
+    <!-- Панель для ввода сообщений и кнопка отправки -->
     <LinearLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
@@ -31,21 +33,22 @@
             android:text="Send"/>
     </LinearLayout>
 
+    <!-- Панель для отображения ошибки -->
     <RelativeLayout
         android:id="@+id/error_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:visibility="gone"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Сервер отключен или произошел сбой"
             android:textColor="@android:color/white"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="16sp"/>
 
         <Button
             android:id="@+id/reconnect_button"
@@ -54,14 +57,7 @@
             android:text="Перезапустить соединение"
             android:layout_below="@id/error_message"
             android:layout_alignParentStart="true"/>
-
-        <Button
-            android:id="@+id/exit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Выйти"
-            android:layout_below="@id/error_message"
-            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
 </RelativeLayout>
+
