@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSocket() {
         try {
-            socket = IO.socket("http://localhost:3000");
+            const socket = io('http://localhost:3000', { transports: ['websocket'] });
 
             socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
                 statusPanel.setVisibility(View.GONE);
