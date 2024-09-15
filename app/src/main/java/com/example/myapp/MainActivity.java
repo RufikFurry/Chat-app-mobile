@@ -12,6 +12,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import io.socket.emitter.Emitter;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.net.URISyntaxException;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSocket() {
         try {
-            const socket = io('http://localhost:3000', { transports: ['websocket'] });
+            socket = io('http://localhost:3000', { transports: ['websocket'] });
 
             socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
                 statusPanel.setVisibility(View.GONE);
