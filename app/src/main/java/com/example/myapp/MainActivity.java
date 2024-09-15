@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSocket() {
         try {
-            socket = io('http://localhost:3000', { transports: ['websocket'] });
-
+	   socket = IO.socket("http://localhost:3000");
             socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
                 statusPanel.setVisibility(View.GONE);
                 sendButton.setEnabled(true);
