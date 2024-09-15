@@ -46,8 +46,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     // Другие зависимости
     // Зависимость для WebSocket, если вы используете Socket.IO
-    implementation 'io.socket:socket.io-client:1.0.0' // добавьте эту строку для работы с Socket.IO
-
+     // добавьте эту строку для работы с Socket.IO
+    implementation 'io.socket:socket.io-client:2.0.1' // Or the latest version
+    implementation 'org.json:json:20200518' // Required for JSON parsing
+}
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
