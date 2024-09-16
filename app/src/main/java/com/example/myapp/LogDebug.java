@@ -15,7 +15,7 @@ public class LogDebug {
 
     public static void logError(Context context, Exception e) {
         // Получаем путь к папке для логов
-        File logDir = new File(context.getExternalFilesDir(null), "ChatLog/logs");
+        File logDir = new File(context.getExternalFilesDir(null), "Storage/logs");
         if (!logDir.exists()) {
             if (!logDir.mkdirs()) {
                 Log.e(TAG, "Не удалось создать папку для логов");
