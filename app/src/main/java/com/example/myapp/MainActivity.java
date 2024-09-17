@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 statusPanel.setVisibility(View.VISIBLE);
                 sendButton.setEnabled(false);
                 statusText.setText(errorMsg);
+                throw new IOException(errorMsg);
             }));
 
             socket.on("message", args -> runOnUiThread(() -> {
