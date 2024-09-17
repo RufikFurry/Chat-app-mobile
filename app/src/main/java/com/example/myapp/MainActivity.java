@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 statusPanel.setVisibility(View.VISIBLE);
                 sendButton.setEnabled(false);
                 statusText.setText(errorMsg);
-                LogDebug(this, args[0]);
+                LogDebug.logError(this, args[0]);
             }));
 
             socket.on("message", args -> runOnUiThread(() -> {
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            LogDebug(this, e);
+            LogDebug.logError(this, e);
         }
 
         sendButton.setOnClickListener(v -> {
