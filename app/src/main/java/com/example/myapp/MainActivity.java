@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView statusText;
     private Button retryButton;
     private Button exitButton;
-    private LogDebug log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 statusPanel.setVisibility(View.VISIBLE);
                 sendButton.setEnabled(false);
                 statusText.setText(errorMsg);
-                log.logError(errorMsg, args[0]);
+                LogError(this, args[0]);
             }));
 
             socket.on("message", args -> runOnUiThread(() -> {
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            log.logError("log: ", e);
+            LogError(this, e);
         }
 
         sendButton.setOnClickListener(v -> {
