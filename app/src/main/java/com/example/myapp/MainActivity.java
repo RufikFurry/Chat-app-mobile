@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        inputIp = findViewById(R.id.inputip);
         messageInput = findViewById(R.id.message_input);
         sendButton = findViewById(R.id.send_button);
         messageList = findViewById(R.id.message_list);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSocket() {
         try {
-	   socket = IO.socket("http://localhost:3000");
+	   socket = IO.socket(inputIp.getText().toString());
             socket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
                 statusPanel.setVisibility(View.GONE);
                 sendButton.setEnabled(true);

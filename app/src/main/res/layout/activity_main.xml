@@ -18,6 +18,13 @@
         android:layout_alignParentBottom="true"
         android:hint="Enter your message"/>
 
+   <EditText
+        android:id="@+id/inputip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:hint="Enter ip"/>
+
     <Button
         android:id="@+id/send_button"
         android:layout_width="wrap_content"
