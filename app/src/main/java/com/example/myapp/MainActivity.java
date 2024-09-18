@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView statusText;
     private Button retryButton;
     private Button exitButton;
+    private EditText inputIp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 statusPanel.setVisibility(View.VISIBLE);
                 sendButton.setEnabled(false);
                 statusText.setText(errorMsg);
-                throw new IOException(errorMsg);
             }));
 
             socket.on("message", args -> runOnUiThread(() -> {
